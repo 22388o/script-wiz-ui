@@ -10,6 +10,7 @@ import { upsertVM } from '../../helper';
 import axios from 'axios';
 import WizData, { hexLE } from '@script-wiz/wiz-data';
 import CloseIcon from '../Svg/Icons/Close';
+import { types } from '@script-wiz/lib-core/model/TxData';
 import './TransactionTemplateModal.scss';
 
 type Props = {
@@ -23,12 +24,19 @@ type TxDataWithVersion = {
   txData: TxData;
 };
 
+enum Networks {
+  MAINNET = 'Mainnet',
+  TESTNET = 'Testnet',
+}
+
 const txInputInitial = {
   previousTxId: '',
   vout: '',
   sequence: '',
+  sequenceType: types.BE,
   scriptPubKey: '',
   amount: '',
+  amountType: types.DECIMAL,
   assetId: '',
   blockHeight: '',
   blockTimestamp: '',
@@ -39,11 +47,6 @@ const txOutputInitial = {
   amount: '',
   assetId: '',
 };
-
-enum Networks {
-  MAINNET = 'Mainnet',
-  TESTNET = 'Testnet',
-}
 
 let message: ReactElement;
 
@@ -91,8 +94,10 @@ const TransactionTemplateModal: React.FC<Props> = ({ showModal, scriptWiz, showM
       previousTxId: input.previousTxId,
       vout: input.vout,
       sequence: input.sequence,
+      sequenceType: input.sequenceType,
       scriptPubKey: input.scriptPubKey,
       amount: input.amount,
+      amountType: input.amountType,
       assetId: input.assetId,
       blockHeight: input.blockHeight,
       blockTimestamp: input.blockTimestamp,
@@ -100,6 +105,8 @@ const TransactionTemplateModal: React.FC<Props> = ({ showModal, scriptWiz, showM
 
     newTxInputs[relatedInputIndex] = newInput;
     setTxInputs(newTxInputs);
+
+    console.log(newTxInputs);
 
     if (checked) setCurrentInputIndex(index);
   };
@@ -215,9 +222,11 @@ const TransactionTemplateModal: React.FC<Props> = ({ showModal, scriptWiz, showM
           txInput = {
             vout: transactionDataInputs[i].vout.toString(),
             sequence: transactionDataInputsSequenceHexLE,
+            sequenceType: types.BE,
             previousTxId: transactionDataInputs[i].txid,
             scriptPubKey: transactionDataInputs[i].prevout.scriptpubkey,
             amount: transactionDataInputs[i].prevout.value !== undefined ? transactionDataInputs[i].prevout.value : '',
+            amountType: types.DECIMAL,
             assetId: transactionDataInputs[i].issuance?.asset_id ? transactionDataInputs[i].issuance.asset_id : '',
             blockHeight: transactionDataInputBlockHeight,
             blockTimestamp: transactionDataInputBlockTime,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TxInput } from '@script-wiz/lib-core';
 import { Input, Radio, RadioGroup } from 'rsuite';
 import { TX_TEMPLATE_ERROR_MESSAGE } from '../../../utils/enum/TX_TEMPLATE_ERROR_MESSAGE';
@@ -6,8 +6,9 @@ import { validHex } from '../../../utils/helper';
 import CloseIcon from '../../Svg/Icons/Close';
 import { VM, VM_NETWORK } from '@script-wiz/lib';
 import WizData, { hexLE } from '@script-wiz/wiz-data';
-import './TransactionInput.scss';
 import { ValueType } from 'rsuite/esm/Radio';
+import { types } from '@script-wiz/lib-core/model/TxData';
+import './TransactionInput.scss';
 
 type Props = {
   vm: VM;
@@ -18,17 +19,7 @@ type Props = {
   lastBlock?: any;
 };
 
-enum types {
-  BE = 'BE',
-  LE = 'LE',
-  DECIMAL = 'Decimal',
-}
-
 const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, removeInput, version, lastBlock }) => {
-  const [typeOfInputSequnece, setTypeOfInputSequnece] = useState<types>(types.BE);
-  const [typeOfInputAmount, setTypeOfInputAmount] = useState<types>(types.DECIMAL);
-  const [typeOfOutputAmount, setTypeOfOutputAmount] = useState<types>(types.DECIMAL);
-
   const isValidPreviousTxId =
     (txInput.input.previousTxId.length !== 64 && txInput.input.previousTxId.length !== 0) || !validHex(txInput.input.previousTxId)
       ? TX_TEMPLATE_ERROR_MESSAGE.PREVIOUS_TX_ID_ERROR
@@ -145,9 +136,16 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
           <RadioGroup
             inline
             name="radioList"
-            value={typeOfInputSequnece}
+            value={txInput.input.sequenceType}
             onChange={(value: ValueType) => {
-              setTypeOfInputSequnece(value as types);
+              txInputOnChange(
+                {
+                  ...txInput.input,
+                  sequenceType: value as types,
+                },
+                txInput.index,
+                txInput.checked,
+              );
             }}
           >
             <Radio value={types.BE}>{types.BE}</Radio>
@@ -157,7 +155,7 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         </div>
         <Input
           value={txInput.input.sequence}
-          placeholder={typeOfInputSequnece === types.DECIMAL ? '0' : '4-bytes'}
+          placeholder={txInput.input.sequenceType === types.DECIMAL ? '0' : '4-bytes'}
           onChange={(value: string) => {
             txInputOnChange(
               {
@@ -228,9 +226,16 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
           <RadioGroup
             inline
             name="radioList"
-            value={typeOfInputAmount}
+            value={txInput.input.amountType}
             onChange={(value: ValueType) => {
-              setTypeOfInputAmount(value as types);
+              txInputOnChange(
+                {
+                  ...txInput.input,
+                  amountType: value as types,
+                },
+                txInput.index,
+                txInput.checked,
+              );
             }}
           >
             <Radio value={types.BE}>{types.BE}</Radio>
@@ -240,7 +245,7 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         </div>
         <Input
           value={txInput.input.amount}
-          placeholder={typeOfInputAmount === types.DECIMAL ? '0' : '8-bytes'}
+          placeholder={txInput.input.amountType === types.DECIMAL ? '0' : '8-bytes'}
           onChange={(value: string) => {
             txInputOnChange(
               {
