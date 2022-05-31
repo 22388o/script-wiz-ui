@@ -1,6 +1,6 @@
 import React from 'react';
 import { TxOutput } from '@script-wiz/lib-core';
-import { Input } from 'rsuite';
+import { Input, Radio } from 'rsuite';
 import { TX_TEMPLATE_ERROR_MESSAGE } from '../../../utils/enum/TX_TEMPLATE_ERROR_MESSAGE';
 import { validHex } from '../../../utils/helper';
 import CloseIcon from '../../Svg/Icons/Close';
@@ -43,7 +43,14 @@ const TransactionOutput: React.FC<Props> = ({ txOutput, vm, txOutputOnChange, re
         />
       </div>
       <div className="tx-output-item">
-        <div className="tx-modal-label">Amount (Decimal):</div>
+        <div className="tx-output-label-with-radio">
+          <div className="tx-modal-label">Amount:</div>
+          <div>
+            <Radio>BE</Radio>
+            <Radio>LE</Radio>
+            <Radio>Decimal</Radio>
+          </div>
+        </div>
         <Input
           value={txOutput.output.amount}
           onChange={(value: string) => {
