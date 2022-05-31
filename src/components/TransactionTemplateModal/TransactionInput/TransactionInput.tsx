@@ -129,7 +129,7 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         />
       </div>
       <div className="tx-input-item">
-        <div className="tx-modal-label-with-radio">
+        <div className="tx-input-label-with-radio">
           <div className="tx-modal-label">Sequence:</div>
           <div>
             <Radio>BE</Radio>
@@ -204,8 +204,8 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         />
       </div>
       <div className="tx-input-item">
-        <div className="tx-modal-label-with-radio">
-          <div className="tx-modal-label">Amount:</div>
+        <div className="tx-input-label-with-radio">
+          <div className="tx-input-label">Amount:</div>
           <div>
             <Radio>BE</Radio>
             <Radio>LE</Radio>

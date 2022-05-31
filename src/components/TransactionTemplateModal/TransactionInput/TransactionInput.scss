@@ -8,7 +8,7 @@
 .tx-input-item {
   margin: 0.5rem 0;
 
-  .tx-modal-label-with-radio {
+  .tx-input-label-with-radio {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,9 +21,9 @@
   justify-content: space-between;
 }
 
-.tx-input-label {
-  width: 49%;
-}
+// .tx-input-label {
+//   width: 49%;
+// }
 
 .tx-input-button {
   width: 100% !important;
