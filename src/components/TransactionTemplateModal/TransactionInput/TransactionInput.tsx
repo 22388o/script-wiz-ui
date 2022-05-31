@@ -112,40 +112,45 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         />
         <div className="tx-error-line">{isValidPreviousTxId}</div>
       </div>
-      <div className="tx-input-item-double">
-        <div className="tx-input-label">
-          <div className="tx-input-item">Vout:</div>
-          <Input
-            value={txInput.input.vout}
-            onChange={(value: string) => {
-              txInputOnChange(
-                {
-                  ...txInput.input,
-                  vout: value,
-                },
-                txInput.index,
-                txInput.checked,
-              );
-            }}
-          />
+      <div className="tx-input-item">
+        <div className="tx-modal-label">Vout:</div>
+        <Input
+          value={txInput.input.vout}
+          onChange={(value: string) => {
+            txInputOnChange(
+              {
+                ...txInput.input,
+                vout: value,
+              },
+              txInput.index,
+              txInput.checked,
+            );
+          }}
+        />
+      </div>
+      <div className="tx-input-item">
+        <div className="tx-modal-label-with-radio">
+          <div className="tx-modal-label">Sequence:</div>
+          <div>
+            <Radio>BE</Radio>
+            <Radio>LE</Radio>
+            <Radio>Decimal</Radio>
+          </div>
         </div>
-        <div className="tx-input-label">
-          <div className="tx-input-item">Sequence:</div>
-          <Input
-            value={txInput.input.sequence}
-            onChange={(value: string) => {
-              txInputOnChange(
-                {
-                  ...txInput.input,
-                  sequence: value,
-                },
-                txInput.index,
-                txInput.checked,
-              );
-            }}
-          />
-          {sequenceValidation() && <div className="tx-error-line">{sequenceValidation()}</div>}
-        </div>
+        <Input
+          value={txInput.input.sequence}
+          onChange={(value: string) => {
+            txInputOnChange(
+              {
+                ...txInput.input,
+                sequence: value,
+              },
+              txInput.index,
+              txInput.checked,
+            );
+          }}
+        />
+        {sequenceValidation() && <div className="tx-error-line">{sequenceValidation()}</div>}
       </div>
       <div className="tx-input-item-double">
         <div className="tx-input-label">
@@ -199,7 +204,14 @@ const TransactionInput: React.FC<Props> = ({ txInput, vm, txInputOnChange, remov
         />
       </div>
       <div className="tx-input-item">
-        <div className="tx-modal-label">Amount (Decimal):</div>
+        <div className="tx-modal-label-with-radio">
+          <div className="tx-modal-label">Amount:</div>
+          <div>
+            <Radio>BE</Radio>
+            <Radio>LE</Radio>
+            <Radio>Decimal</Radio>
+          </div>
+        </div>
         <Input
           value={txInput.input.amount}
           onChange={(value: string) => {

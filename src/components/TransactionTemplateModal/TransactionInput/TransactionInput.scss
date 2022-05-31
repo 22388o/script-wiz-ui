@@ -7,6 +7,12 @@
 
 .tx-input-item {
   margin: 0.5rem 0;
+
+  .tx-modal-label-with-radio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .tx-input-item-double {
